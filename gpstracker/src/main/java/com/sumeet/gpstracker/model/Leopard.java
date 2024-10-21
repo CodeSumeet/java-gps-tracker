@@ -1,35 +1,51 @@
 package com.sumeet.gpstracker.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Leopard {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String callerId;
+    private String name;
+    private int age;
     private double latitude;
     private double longitude;
 
-    // Getters and setters
+    // Constructors, Getters, and Setters
+    public Leopard() {}
 
-    public Long getId() {
-        return id;
+    public Leopard(String callerId, String name, int age, double latitude, double longitude) {
+        this.callerId = callerId;
+        this.name = name;
+        this.age = age;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters and Setters
     public String getCallerId() {
         return callerId;
     }
 
     public void setCallerId(String callerId) {
         this.callerId = callerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public double getLatitude() {
