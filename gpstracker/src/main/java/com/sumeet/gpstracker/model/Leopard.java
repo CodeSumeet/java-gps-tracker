@@ -8,22 +8,15 @@ public class Leopard {
     @Id
     private String callerId;
     private String name;
-    private int age;
     private double latitude;
     private double longitude;
+    private boolean shocked;
+    private int shockCount;
+    private boolean crossedOuterFence; // New field
+    private double maxFood = 10.0; // Maximum food in kg
+    private double foodEaten = 0.0; // Amount of food eaten
 
-    // Constructors, Getters, and Setters
-    public Leopard() {}
-
-    public Leopard(String callerId, String name, int age, double latitude, double longitude) {
-        this.callerId = callerId;
-        this.name = name;
-        this.age = age;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    // Getters and Setters
+    // Getters and setters for all fields
     public String getCallerId() {
         return callerId;
     }
@@ -40,14 +33,6 @@ public class Leopard {
         this.name = name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public double getLatitude() {
         return latitude;
     }
@@ -62,5 +47,55 @@ public class Leopard {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public boolean isShocked() {
+        return shocked;
+    }
+
+    public void setShocked(boolean shocked) {
+        this.shocked = shocked;
+    }
+
+    public int getShockCount() {
+        return shockCount;
+    }
+
+    public void setShockCount(int shockCount) {
+        this.shockCount = shockCount;
+    }
+
+    public boolean isCrossedOuterFence() {
+        return crossedOuterFence;
+    }
+
+    public void setCrossedOuterFence(boolean crossedOuterFence) {
+        this.crossedOuterFence = crossedOuterFence;
+    }
+
+    public double getMaxFood() {
+        return maxFood;
+    }
+
+    public double getFoodEaten() {
+        return foodEaten;
+    }
+
+    public double getSpaceLeft() {
+        return maxFood - foodEaten;
+    }
+
+    public void addFood(double amount) {
+        if (amount + foodEaten <= maxFood) {
+            foodEaten += amount;
+        }
+    }
+
+    public void setFoodEaten(double foodEaten) {
+        this.foodEaten = foodEaten;
+    }
+
+    public void setMaxFood(double maxFood) {
+        this.maxFood = maxFood;
     }
 }
