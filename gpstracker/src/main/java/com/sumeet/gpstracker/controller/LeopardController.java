@@ -22,34 +22,49 @@ public class LeopardController {
     // Random generator for location changes
     private final Random random = new Random();
 
+    // Sanjay Gandhi National Park boundaries
+    private static final double MIN_LATITUDE = 19.2147;
+    private static final double MAX_LATITUDE = 19.3132;
+    private static final double MIN_LONGITUDE = 72.8411;
+    private static final double MAX_LONGITUDE = 72.9657;
+
     @Autowired
     public LeopardController(SimpMessagingTemplate messagingTemplate, LeopardRepository leopardRepository) {
         this.messagingTemplate = messagingTemplate;
         this.leopardRepository = leopardRepository;
     }
 
-    // Endpoint to add leopards
     @PostMapping
     public String addLeopard(@RequestBody Leopard leopard) {
         leopardRepository.save(leopard);
         return "Leopard added successfully!";
     }
 
-    // Endpoint to get all leopards' locations
     @GetMapping
     public List<Leopard> getLeopards() {
         return leopardRepository.findAll();
     }
 
-    // Scheduled task to update leopard locations
+    // Scheduled task to update leopard locations within park boundaries
     @Scheduled(fixedRate = 5000) // Update every 5 seconds
     public void updateLeopardLocations() {
         List<Leopard> leopards = leopardRepository.findAll();
 
         for (Leopard leopard : leopards) {
-            // Update latitude and longitude with random values
-            leopard.setLatitude(leopard.getLatitude() + (random.nextDouble() - 0.5) * 0.01);
-            leopard.setLongitude(leopard.getLongitude() + (random.nextDouble() - 0.5) * 0.01);
+            // Small random movement within the park's latitude and longitude range
+            double maxChange = 0.001; // Control the maximum change for smoother movement
+
+            // Calculate new latitude and longitude
+            double newLatitude = leopard.getLatitude() + (random.nextDouble() - 0.5) * maxChange;
+            double newLongitude = leopard.getLongitude() + (random.nextDouble() - 0.5) * maxChange;
+
+            // Restrict latitude and longitude within the park's boundaries
+            newLatitude = Math.max(MIN_LATITUDE, Math.min(newLatitude, MAX_LATITUDE));
+            newLongitude = Math.max(MIN_LONGITUDE, Math.min(newLongitude, MAX_LONGITUDE));
+
+            // Set the new values
+            leopard.setLatitude(newLatitude);
+            leopard.setLongitude(newLongitude);
 
             // Save the updated leopard back to the database
             leopardRepository.save(leopard);
